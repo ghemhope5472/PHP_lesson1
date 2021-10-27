@@ -89,7 +89,7 @@
                 $db_email = $row["email"];
 
                 echo "<tr> 
-                        <td> $db_name  $user_id</td>
+                        <td> $db_name</td>
                         <td> $db_email </td>
                         <td> $db_address </td>
                         <td> <a href='Edit.php?id=$user_id'> Update </a> </td>

@@ -5,15 +5,18 @@
         $search = $searchErr = '';
 
         if($_SERVER["REQUEST_METHOD"] === "POST"){
-            $searchErr = 'Required';
-        } else {
-            $search = $_POST['search'];
-        }
+          
+            if(empty($_POST['search'])){
+                $searchErr = 'Required';
+            }else{
+                $search = $_POST['search'];
+            }
 
-        if($search){
-            echo "<script>windows.location.href='result.php?search=$search</script>";
+            if($search){
+                echo "<script>window.location.href='result.php?search=$search';</script>";
+            }
         }
-
+        
 ?>
 
 
