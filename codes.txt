@@ -1,6 +1,7 @@
 
  $query = mysqli_query( $connections, "INSERT INTO mytbl(name,address,email) VALUES('$name','$address','$email')");
         echo "<script language='javascript'> alert('New record inserted to database!');</script>";
+<<<<<<< Updated upstream
         echo "<script> window.href.location='index.php';</script>";
 
 
@@ -71,3 +72,6 @@
     <Button type="submit"> Login </Button>
 
 </form>
+=======
+        echo "<script> window.href.location='index.php';</script>";
+>>>>>>> Stashed changes
