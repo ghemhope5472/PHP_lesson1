@@ -7,7 +7,6 @@
     $email = $password = '';
     $emailErr = $passwordErr = '';
 
-
     if($_SERVER["REQUEST_METHOD"] == 'POST'){
         if(empty($_POST["email"])){
             $emailErr = "Required";
@@ -26,9 +25,12 @@
             $check_email_rows = mysqli_num_rows($check_email);
             if($check_email_rows > 0 ){
                     while($row = mysqli_fetch_assoc($check_email)){
+                        $user_id = $row['id'];
                         $db_password = $row["password"];
                         $db_account_type = $row["account_type"];
                         if( $password === $db_password){
+                            session_start();
+                            $_SESSION['id'] = $user_id;
                             if( $db_account_type == "1"){
                                 echo "<script>window.location.href='admin';</script>";
                             }else{
@@ -38,7 +40,6 @@
                             $passwordErr = "Password is incorrect";
                         }
                     }
-
             }else{
                     $emailErr =  "Not registered";
             }

@@ -1,77 +1,94 @@
+@ -15,12 +15,14 @@
 
- $query = mysqli_query( $connections, "INSERT INTO mytbl(name,address,email) VALUES('$name','$address','$email')");
-        echo "<script language='javascript'> alert('New record inserted to database!');</script>";
-<<<<<<< Updated upstream
-        echo "<script> window.href.location='index.php';</script>";
-
-
-
-
-        <style>
-    .error{
-        color: red;
-    }
-</style>
 <?php
-    $email = $password = '';
-    $emailErr = $passwordErr = '';
+    include('nav.php');
 
+?>
 
-    if($_SERVER["REQUEST_METHOD"] == 'POST'){
-        if(empty($_POST["email"])){
-            $emailErr = "Required";
+<?php 
+    $name = $address = $email = '';
+    $errName = $errAddress = $errEmail = '';
+
+include("connections.php");
+
+    $name = $address = $email = $password = $cpassword = '';
+    $errName = $errAddress = $errEmail = $errPassword = $errorCpassword = '';
+
+    if($_SERVER["REQUEST_METHOD"] === "POST"){
+        if(empty($_POST["name"])){
+@ -38,9 +40,38 @@
         }else{
-            $email = $_POST['email'];
+            $email = $_POST["email"];
         }
         if(empty($_POST["password"])){
-            $passwordErr = "Required";
+            $errPassword = "Password is required";
         }else{
             $password = $_POST["password"];
         }
-        if($email && $password){
-            include("connections.php");
-
-            $check_email = mysqli_query($connections, "SELECT * FROM mytbl where email='$email' ");
-            $check_email_rows = mysqli_num_rows($check_email);
-            if($check_email_rows > 0 ){
-                    while($row = mysqli_fetch_assoc($check_email)){
-                        $db_password = $row["password"];
-                        $db_account_type = $row["account_type"];
-                        if( $password === $db_password){
-                            if( $db_account_type == "1"){
-                                echo "<script>window.location.href='admin';</script>";
-                            }else{
-                                echo "<script>window.location.href='user';</script>";
-                            }
-                        }else{
-                            $passwordErr = "Password is incorrect";
-                        }
-                    }
-
-            }else{
-                    $emailErr =  "Not registered";
-            }
-
+        if(empty($_POST['cpassword'])){
+            $errorCpassword = "Error";
+        }else{
+            $cpassword = $_POST['cpassword'];
         }
-    }
-?>
-
-
-<form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-
-    <label for="email">Email </label> <br>
-    <input type="text" name="email" ><br>
-    <span class="error"> <?php echo $emailErr ?> </span><br>
 
 
     
-    <label for="password">Password </label> <br>
-    <input type="password" name="password" ><br>
-    <span class="error"> <?php echo $passwordErr ?> </span><br>
 
-    <Button type="submit"> Login </Button>
+        if($name && $address && $email && $password && $cpassword ){
+ 
+         $check_email = mysqli_query($connections, "SELECT * FROM mytbl WHERE email='$email' ");
+         $check_email_row = mysqli_num_rows($check_email);
+ 
+         if($check_email_row > 0 ){
+             $errEmail = "Email already registered!";
+         } else{
+ 
+         }
+
+
+    }
+
+?>
+
+
+
+<form action="<?php htmlspecialchars('PHP_SELF'); ?>" method="POST">
+
+    <label for="name">Full name</label> <br>
+@ -55,22 +86,28 @@
+    <input type="email" name="email" id="email" require > <br>
+    <span class="error"> <?php echo $errEmail; ?> </span> <br>
+
+    <label for="password">Password</label> <br>
+    <input type="password" name="password" id="password" require > <br>
+    <span class="error"> <?php echo $errPassword; ?> </span> <br>
+
+    <label for="password">Confirm Password</label> <br>
+    <input type="password" name="cpassword" id="password" require > <br>
+    <span class="error"> <?php echo $errorCpassword; ?> </span> <br>
+
+    <button type="submit"> Submit </button>
 
 </form>
-=======
+<hr>
+
+<?php 
+        include("connections.php");
+
+       if($name && $address && $email){
+
+        $query = mysqli_query( $connections, "INSERT INTO mytbl(name,address,email) VALUES('$name','$address','$email')");
+        echo "<script language='javascript'> alert('New record inserted to database!');</script>";
         echo "<script> window.href.location='index.php';</script>";
->>>>>>> Stashed changes
+        
+
+       }
+        #$query = mysqli_query( $connections, "INSERT INTO mytbl(name,address,email) VALUES('$name','$address','$email')");
+        #echo "<script language='javascript'> alert('New record inserted to database!');</script>";
+       # echo "<script> window.href.location='index.php';</script>";
+
+       
+    }
+        $view_query = mysqli_query($connections, "SELECT * FROM mytbl");
+
+        echo "<table border='1' width='50%'>";
